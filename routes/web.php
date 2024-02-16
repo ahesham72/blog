@@ -16,13 +16,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {return view('welcome');});
 
-Route::get('/posts',[PostController::class, 'index']);
-Route::get('/posts/{post}',[PostController::class, 'show']);
-Route::get('/test/ok/something',function(){return'test';});
+Route::get('/posts',[PostController::class, 'index'])->name(name:'index');
+
+Route::get('/posts/create',[PostController::class, 'create'])->name(name:'create');
+
+Route::post('/post',[PostController::class, 'store'])->name(name:'store');
+
+Route::get('/posts/{post}',[PostController::class, 'show'])->name(name:'show');
+
+Route::get('/posts/{post}/edit',[PostController::class, 'edit'])->name(name:'edit');
+
+Route::PUT('/posts/{post}',[PostController::class , 'update'],)->name(name:'update');
+
+Route::delete('/posts/{post}',[PostController::class , 'destroy'])->name(name:'destroy');
 
 
 
-
+//
 
 
 
