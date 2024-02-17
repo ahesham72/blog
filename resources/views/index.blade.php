@@ -20,18 +20,18 @@
 
                 </tr>
             </thead>
-            <tbody>
+            <tbo->
                 @foreach ($posts as $post)
                     <tr>
                         <th scope="row">{{$post['id']}}</th>
-                        <td>{{$post['title']}}</td>
-                        <td>{{$post['posted_by']}}</td>
-                        <td>{{$post['created_at']}}</td>
+                        <td>{{$post->title}}</td>
+                        <td>{{$post->posted_by}}</td>
+                        <td>{{$post->created_at}}</td>
                         <td>
                             <a href="{{route('show',$post['id'])}}" type="button" class="btn btn-warning">View</a>
                             <a href='{{route('edit',$post['id'])}}' class="btn btn-success">Edit</a>
 
-                            <form style="display: inline" method="POST" action="{{route('destroy', $post['id'])}}">
+                            <form style="display: inline" method="POST" action="{{route('destroy', $post->id)}}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delet</button>
@@ -41,7 +41,7 @@
                     </tr>
                 @endforeach
 
-            </tbody>
+            </tbo->
         </table>
         {{-- *******************  End  Code Table view All Posts --}}
 
