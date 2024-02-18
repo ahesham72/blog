@@ -59,6 +59,11 @@ class PostController extends Controller
 
     public function store()
     {
+        request()->validate([
+            'title'=> ['required', 'min:3'],
+            'description'=> ['required', 'min:5'],
+            'post_creator'=> ['required', 'exists:users,id']
+        ]);
         //$request = request();
 
         //dd($request->title, $request->all());
