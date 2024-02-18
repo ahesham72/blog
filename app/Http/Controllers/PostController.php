@@ -10,7 +10,7 @@ use App\Models\User;
 
 class PostController extends Controller
 {
-
+// index home
     public function index()
     {
         // select * from posts;
@@ -18,9 +18,9 @@ class PostController extends Controller
 
         $allPosts = [];
         return view('index', ['posts' => $postsFromDB]);
-
     }
 
+// show post info page
     public function show(Post $post)
     {
         //select * from posts where id = $postsId;
@@ -38,22 +38,27 @@ class PostController extends Controller
         // Post::where('title','php')->first();//select * from posts where title = 'php' limit
         //    $singlePostDB =Post::where('title','php')->get(); //select * from posts where title = 'php' all
         //     dd($singlePostDB);
-        return view('show', ['post' => $post]);
+        $users = User::all();
+
+        return view('show', ['post' => $post, 'users' => $users]);
     }
 
+
+//created page
     public function create()
     {
-                // select * form users;
+        // select * form users;
 
         $users = User::all();
         // dd($users);
 
-        return view('create', ['users'=> $users]);
+        return view('create', ['users' => $users]);
     }
+
+// inster data in database 'created page'
 
     public function store()
     {
-
         //$request = request();
 
         //dd($request->title, $request->all());
@@ -67,17 +72,38 @@ class PostController extends Controller
 
         //dd($data, $title, $description, $postCreator);
 
+        // tore the submitted data in datebase
+        // $post = new Post;
+
+        // $post->title = $title;
+        // $post->description = $description;
+        // $post->user_id = $postCreator;
+        // $post->save();
+
+        Post::create([
+            'title'=> $title,
+            'description'=> $description,
+            'user_id'=>$postCreator,
+
+        ]);
+
 
         return to_route('index');
     }
 
-    public function edit()
+// edit page
+    public function edit(Post $post)
     {
+        // select * all user form DB
+        $users = User::all();
 
-        return view('edit');
+
+
+        return view('edit', ['users'=>$users, 'post'=> $post]);
     }
 
-    public function update()
+
+    public function update($postId)
     {
         //1- get the user data
         $data = request()->all();
@@ -87,14 +113,26 @@ class PostController extends Controller
         $postCreator = request()->post_creator;
 
         // dd($data, $title, $description, $postCreator);
+
         //2- Update the user data in datebase
 
-        //3- redirection to show
+        $singlePostDB = Post::find($postId);
+        $singlePostDB->update([
+            'title' => $title,
+            'description'=> $description,
+            'user_id'=>$postCreator,
 
-        return to_route('show', 1);
+        ]);
+        //3- redirection to show
+        return to_route('show', $postId );
     }
-    public function destroy()
+
+
+    public function destroy($postId)
     {
+
+        $post = Post::find($postId);
+        $post->delete();
         return to_route('index');
     }
 }

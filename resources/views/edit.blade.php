@@ -3,25 +3,30 @@
     Edit
 @endsection
 @section('content')
-    <form method="POST" action="{{ route('update', 2) }}">
+    <form method="POST" action="{{ route('update', $post->id) }}">
         @csrf
         @method('PUT')
         <div class="mb-3">
             <label class="form-label">Title</label>
-            <input name="title" type="text" class="form-control" value="">
+            <input name="title" type="text" class="form-control" value="{{ $post->title }}">
         </div>
         <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea name="description" class="form-control"></textarea>
+            <textarea name="description" class="form-control">{{ $post->description }}</textarea>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Post Creator</label>
             <select name="post_creator" class="form-control">
-                <option value="1">Ahmed</option>
-                <option value="2">Mohamed</option>
-                <option value="3">Ali</option>
-                <option value="4">Kimo</option>
+
+                @foreach ($users as $user)
+                    {
+
+                    {{-- <option @if ($user->id == $post->user_id) selected @endif value="{{ $user->id }}">{{ $user->name }}</option> --}}
+                     <option @selected ($post->user_id == $user->id) value="{{ $user->id }}">{{$user->name}}</option>
+
+                    }
+                @endforeach
 
             </select>
         </div>
